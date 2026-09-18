@@ -5,9 +5,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
+git clone <project link>
+cd <folder name>
+npm install
 npm run dev
 
 ```
+
+## Screen Shot
+![Dashboard](public/project-screenshot/dashboard.png)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
