@@ -12,9 +12,29 @@ datasource db {
   provider = "postgresql"
 }
 
-model Test{
+model User {
   id String @id @default(cuid())
-  name String
+  clerkId String @unique
+  email String? @unique
+  firstName String?
+  lastName String?
+  name String?
+  imageUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  projects Project[]
+
+  @@map("users") 
+}
+
+model Project {
+  id String @id @default(cuid())
+  name String
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //Messages
 }
