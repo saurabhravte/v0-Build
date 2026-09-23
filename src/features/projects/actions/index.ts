@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/features/auth/actions"
 import { MessageRole, MessageType } from "@/generated/prisma/client"
 import { generateSlug } from "random-word-slugs"
 import { prisma } from "@/lib/db"
+import { inngest } from "@/features/inngest/client"
 
 
 export const createProject = async (value: string) => {
@@ -26,7 +27,11 @@ export const createProject = async (value: string) => {
       }
     })
 
-    // TODO: Send project to inngest
+    // Send project to inngest
+    await inngest.send({
+      name: "code-agent/run",
+      data: { value, projectId: project.id }
+    })
 
     return project;
   } catch (error) {
