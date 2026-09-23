@@ -64,7 +64,7 @@ export const codeAgentFunction = inngest.createFunction(
     const geminiModel = gemini({
       model: "gemini-2.5-flash",
       step,
-      apiKey: process.env.GEMINI_API_KEY
+      apiKey: process.env.GEMINI_API_KEY,
       defaultParameters: {
         generationConfig: {
           temperature: 0,
