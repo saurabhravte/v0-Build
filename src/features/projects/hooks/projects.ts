@@ -1,9 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { createProject, getProjectById, getProjects } from "../actions"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createProject, getProjects, getProjectById } from "../actions";
+
 
 export type ActionError = {
-  error: string
-}
+  error: string;
+};
 
 function isActionError(value: unknown): value is ActionError {
   return (
@@ -11,29 +12,27 @@ function isActionError(value: unknown): value is ActionError {
     value !== null &&
     "error" in value &&
     typeof (value as ActionError).error === "string"
-  )
+  );
 }
 
 async function unwrapActionResult<T>(result: T | { error: string }): Promise<T> {
   if (isActionError(result)) {
-    throw new Error(result.error)
+    throw new Error(result.error);
   }
 
-  return result
+  return result;
 }
 
 export const useCreateProject = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  return useMutation(
-    {
-      mutationFn: async (value: string) => unwrapActionResult(await createProject(value)),
-
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["projects"] })
-      }
+  return useMutation({
+    mutationFn: async (value: string) =>
+      unwrapActionResult(await createProject(value)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     }
-  )
+  })
 }
 
 export const useGetProjects = () => {
@@ -43,9 +42,9 @@ export const useGetProjects = () => {
   })
 }
 
-export const useProjectById = (id: string) => {
+export const useGetProjectById = (id: string) => {
   return useQuery({
-    queryKey: ["projects", id],
-    queryFn: async () => unwrapActionResult(await getProjectById(id))
+    queryKey: ["project", id],
+    queryFn: async () => unwrapActionResult(await getProjectById(id)),
   })
 }
